@@ -54,7 +54,7 @@ export default class Layout extends Vue {}
           sans-serif;
         font-weight: 600;
         img {
-          width: 200px;
+          width: 300px;
           padding-bottom: 3px;
         }
       }
