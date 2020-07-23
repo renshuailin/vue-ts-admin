@@ -43,6 +43,8 @@
           >7天内自动登录</el-checkbox>
           <el-button type="text" class="forget" @click="$router.push('/password')">忘记密码</el-button>
         </el-form-item>
+        <span>测试号:admin</span>
+        <span>密 &nbsp;&nbsp;&nbsp;&nbsp;码:123456</span>
       </el-form>
     </app-LoginHeader>
   </div>
@@ -55,7 +57,7 @@ import LoginHeader from "components/LoginHeader/LoginHeader.vue";
 // 引入vuex 装饰
 import { State, Getter, Action, Mutation } from "vuex-class";
 @Component({
-  components: { "app-LoginHeader": LoginHeader }
+  components: { "app-LoginHeader": LoginHeader },
 })
 export default class Login extends Vue {
   @Action("setUser") setUser: any;
@@ -67,11 +69,11 @@ export default class Login extends Vue {
   } = {
     username: "",
     pwd: "",
-    autoLogin: true
+    autoLogin: true,
   };
   @Provide() rule = {
     username: [{ required: true, message: "请输入账号", trigger: "blur" }],
-    pwd: [{ required: true, message: "请输入密码", trigger: "blur" }]
+    pwd: [{ required: true, message: "请输入密码", trigger: "blur" }],
   };
   Submit(): void {
     (this.$refs["ruleForm"] as any).validate((valid: boolean) => {
@@ -114,5 +116,13 @@ i {
 }
 .forget {
   float: right;
+}
+span {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  margin-top: 5px;
+  color: red;
+  align-items: flex-start;
 }
 </style>

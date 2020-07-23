@@ -1,7 +1,8 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "views/Home.vue";
+// import Home from "views/Home.vue";
 import Layout from "views/Layout/Layout.vue";
+import jwt_decode from "jwt-decode";
 
 Vue.use(VueRouter);
 
@@ -58,7 +59,8 @@ export const RouterMap = [
         name: "formData",
         meta: {
           title: "表单管理",
-          icon: "fa fa-file-text-o"
+          icon: "fa fa-file-text-o",
+          roles: ["admin", "editor"]
         },
         component: () => import("@/views/Data/FormData.vue")
       }
@@ -76,7 +78,8 @@ export const RouterMap = [
         name: "accountData",
         meta: {
           title: "账户管理",
-          icon: "fa fa-user-plus"
+          icon: "fa fa-user-plus",
+          roles: ["admin"]
         },
         component: () => import("@/views/User/AccountData.vue")
       }
@@ -148,8 +151,27 @@ router.beforeEach((to: any, from: any, next: any) => {
   if (to.path == "/login" || to.path == "/password") {
     next();
   } else {
-    isLogin ? next() : next("/login");
+    if (isLogin) {
+      const decoded: any = jwt_decode(localStorage.tsToken);
+      const { key } = decoded;
+      //判断
+      if (hasPermission(key, to)) {
+        next();
+      } else {
+        next("/404");
+      }
+    } else {
+      next("/login");
+    }
   }
 });
-
+function hasPermission(roles: string, route: any) {
+  if (route.meta && route.meta.roles) {
+    // 如果meta.roles是否包含角色的key值,如果包含那么就是有权限,否则无权限
+    return route.meta.roles.some((role: string) => role.indexOf(roles) >= 0);
+  } else {
+    // 默认不设置有权限
+    return true;
+  }
+}
 export default router;

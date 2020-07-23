@@ -10,7 +10,7 @@
       <el-table-column label="等级" prop="level" width="120"></el-table-column>
       <el-table-column label="数量" prop="count" width="120"></el-table-column>
       <el-table-column label="上线日期" prop="date" width="160"></el-table-column>
-      <el-table-column label="操作" width="160">
+      <el-table-column v-if="getUser.key !='visitor'" label="操作" width="160">
         <template slot-scope="scope">
           <el-button size="mini" @click="edit(scope.$index,scope.row)">编辑</el-button>
           <el-button size="mini" @click="del(scope.$index,scope.row)" type="danger">删除</el-button>
@@ -35,10 +35,14 @@
 import { Component, Vue, Provide } from "vue-property-decorator";
 //编辑
 import EditToast from "./EditToast.vue";
+// 引入vuex 装饰
+import { State, Getter, Action, Mutation } from "vuex-class";
 @Component({
-  components: { "app-EditToast": EditToast }
+  components: { "app-EditToast": EditToast },
 })
 export default class TableData extends Vue {
+  @Getter("user") getUser: any;
+
   @Provide() Search: string = "";
   @Provide() Height: number = document.body.offsetHeight - 270;
   @Provide() Data: any = []; //数据
@@ -53,7 +57,7 @@ export default class TableData extends Vue {
     type: "",
     level: "",
     count: "",
-    date: ""
+    date: "",
   };
 
   load() {
@@ -67,6 +71,7 @@ export default class TableData extends Vue {
   }
   created() {
     this.load();
+    // console.log(this.Data);
   }
   //跳出
   edit(index: number, row: any) {
@@ -83,7 +88,7 @@ export default class TableData extends Vue {
       .then((res: any) => {
         this.$message({
           message: res.data.msg,
-          type: "success"
+          type: "success",
         });
         this.Data.splice(index, 1);
       });

@@ -35,17 +35,13 @@ import { Component, Vue } from "vue-property-decorator";
 import { State, Getter, Action, Mutation } from "vuex-class";
 import getters from "../../store/getters";
 @Component({
-  components: {}
+  components: {},
 })
 export default class Sidebar extends Vue {
   @Getter("routers") getRouters: any;
   created() {
-    // console.log(this.getRouters);
+    console.log(this.getRouters);
   }
-  get ValA(){
-            return ;
-        }
-
 }
 </script>
 

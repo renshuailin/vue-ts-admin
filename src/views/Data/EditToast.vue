@@ -30,7 +30,12 @@
         <el-input v-model="form.count" placeholder="请输入商品数量"></el-input>
       </el-form-item>
       <el-form-item label="入库时间" prop="date">
-        <el-date-picker v-model="form.date" type="date" placeholder="选择日期时间"></el-date-picker>
+        <el-date-picker
+          v-model="form.date"
+          type="date"
+          placeholder="选择日期时间"
+          value-format="yyyy-MM-dd"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="种类" prop="type">
         <el-radio-group v-model="form.type">
@@ -52,7 +57,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Provide } from "vue-property-decorator";
 @Component({
-  components: {}
+  components: {},
 })
 export default class EditDialog extends Vue {
   @Prop(Boolean) dialogVisible!: boolean;
@@ -65,7 +70,7 @@ export default class EditDialog extends Vue {
     _id: string;
   };
   @Provide() rule: any = {
-    title: [{ required: true, message: "请输入商品名称", trigger: "blur" }]
+    title: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
   };
   confirm(data: any) {
     (this.$refs[data] as any).validate((valid: boolean) => {
@@ -77,7 +82,7 @@ export default class EditDialog extends Vue {
             this.$emit("close");
             this.$message({
               message: res.data.msg,
-              type: "success"
+              type: "success",
             });
           });
       }
