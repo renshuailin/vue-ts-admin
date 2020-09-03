@@ -43,7 +43,7 @@
           >7天内自动登录</el-checkbox>
           <el-button type="text" class="forget" @click="$router.push('/password')">忘记密码</el-button>
         </el-form-item>
-        <span>测试号:admin</span>
+        <span>测试号:laofuzi</span>
         <span>密 &nbsp;&nbsp;&nbsp;&nbsp;码:123456</span>
       </el-form>
     </app-LoginHeader>
